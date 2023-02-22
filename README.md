@@ -9,7 +9,10 @@
 ![image](https://user-images.githubusercontent.com/70785059/220607375-85b9e600-1d37-4257-8ac6-8de766055964.png)
 
 # Deploy
+ - Commit
  - Pull request
+ - Aprovação
+ - Testes
  - Github actions irá instalar na máquina virtual via pipeline
 
 # Infraestrutura
