@@ -2,6 +2,11 @@
 
 Para editar as tarefas é apenas dar dois clicks no campo que deseja editar na tabela.
 
+# ToDo
+ - Ajustar par o site ficar responsivo
+ - Criar testes com o jest
+ - Utilizar o Reduz para otimizar os states
+
 # Bibliotecas / framework / Linguagem:
  - React
  - Typescript
