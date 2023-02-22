@@ -1,4 +1,4 @@
-import { appSources } from "./appSources";
+import {appSources, appSourcesWithoutLogin} from "./appSources";
 export class AppService {
     public async getTasks(path = ''): Promise<any> {
         let source = appSources('http://47.88.1.91/backend/api/tasks/')
@@ -23,7 +23,7 @@ export class AppService {
     }
 
     public async postAuth(object: any): Promise<any> {
-        let source = appSources('http://47.88.1.91/backend/api/token/')
+        let source = appSourcesWithoutLogin('http://47.88.1.91/backend/api/token/')
         const response = await source.post('', object);
         return response.data;
     }

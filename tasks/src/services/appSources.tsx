@@ -12,4 +12,14 @@ function appSources(url='') {
     });
 }
 
+function appSourcesWithoutLogin(url='') {
+    return axios.create({
+        baseURL: url,
+        headers: {
+            "Content-type": "application/json",
+        }
+    });
+}
+
 export { appSources as appSources }
+export { appSourcesWithoutLogin as appSourcesWithoutLogin}
