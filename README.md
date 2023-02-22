@@ -5,7 +5,7 @@ Para editar as tarefas é apenas dar dois clicks no campo que deseja editar na t
 # ToDo
  - Ajustar par o site ficar responsivo
  - Criar testes com o jest
- - Utilizar o Reduz para otimizar os states
+ - Utilizar o Redux para otimizar os states
 
 # Bibliotecas / framework / Linguagem:
  - React
