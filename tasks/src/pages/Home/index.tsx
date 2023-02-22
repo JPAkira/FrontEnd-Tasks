@@ -17,8 +17,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import {TextInput} from "../../components/TextInput";
-
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import TextField from '@mui/material/TextField';
+import dayjs, { Dayjs } from 'dayjs';
 const appServices = new AppService();
 
 export interface SnackbarType {
@@ -89,13 +92,13 @@ const style = {
 export const HomePage = () => {
         const [tasks, setTasks] = useState([])
         const [priority, setPriority] = useState("1")
-        const [eventAtStart, setEventAtStart] = useState(new Date)
-        const [finishAtStart, setFinishAtStart] = useState(new Date)
-        const [eventAtEnd, setEventAtEnd] = useState(new Date)
-        const [finishAtEnd, setFinishAtEnd] = useState(new Date)
+        const [eventAtStart, setEventAtStart] = useState(null)
+        const [finishAtStart, setFinishAtStart] = useState(null)
+        const [eventAtEnd, setEventAtEnd] = useState(null)
+        const [finishAtEnd, setFinishAtEnd] = useState(null)
         const [newTaskName, setNewTaskName] = useState("")
         const [newTaskPriority, setNewTaskPriority] = useState("0")
-        const [newTaskDate, setNewTaskDate] = useState(new Date)
+        const [newTaskDate, setNewTaskDate] = useState(null)
         const [snackbar, setSnackbar] = useState<SnackbarType | null>(null);
         const [open, setOpen] = useState(false);
         const handleOpen = () => setOpen(true);
@@ -123,21 +126,6 @@ export const HomePage = () => {
             setPriority(value)
         }
 
-        function handleFinishStartChange(value: Date) {
-            setFinishAtStart(value)
-        }
-
-        function handleFinishEndChange(value: Date) {
-            setFinishAtEnd(value)
-        }
-
-        function handleEventStartChange(value: Date) {
-            setEventAtStart(value)
-        }
-
-        function handleEventEndChange(value: Date) {
-            setEventAtEnd(value)
-        }
 
         const handleNewTaskName = (event: React.ChangeEvent<HTMLInputElement>) => {
             const value = event.target.value;
@@ -148,17 +136,26 @@ export const HomePage = () => {
             setNewTaskPriority(value)
         }
 
-        function handleNewTaskDate(value: Date) {
-            setNewTaskDate(value)
-        }
 
         function searchWithFilter() {
             let params_search = new URLSearchParams();
             params_search.append('priority', priority)
-            params_search.append('event_at__gte', eventAtStart.toISOString())
-            params_search.append('event_at__lte', eventAtEnd.toISOString())
-            params_search.append('finish_at__gte', finishAtStart.toISOString())
-            params_search.append('finish_at__lte', finishAtEnd.toISOString())
+            if (eventAtStart !== null) {
+                // @ts-ignore
+                params_search.append('event_at__gte', eventAtStart.toISOString())
+            }
+            if (eventAtEnd !== null) {
+                // @ts-ignore
+                params_search.append('event_at__lte', eventAtEnd.toISOString())
+            }
+            if (finishAtStart !== null) {
+                // @ts-ignore
+                params_search.append('finish_at__gte', finishAtStart.toISOString())
+            }
+            if (finishAtStart !== null) {
+                // @ts-ignore
+                params_search.append('finish_at__lte', finishAtEnd.toISOString())
+            }
             let path_search = '?' + params_search.toString()
             appServices.getTasks(path_search).then((response) => {
                 console.log(response)
@@ -177,9 +174,11 @@ export const HomePage = () => {
         }
 
         const saveTask = () => {
+            // @ts-ignore
             let newTask = {
                 name: newTaskName,
                 priority: newTaskPriority,
+                // @ts-ignore
                 event_at: newTaskDate.toISOString()
             }
             appServices.postTask(newTask).then((response) => {
@@ -273,7 +272,16 @@ export const HomePage = () => {
                         <InputBox width="100%">
                             <LabelInput>Data:</LabelInput>
                             <DateBox>
-                                <DateInput width="100%" onChange={handleNewTaskDate}/>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label=""
+                                    value={newTaskDate}
+                                    onChange={(newValue) => {
+                                      setNewTaskDate(newValue);
+                                    }}
+                                  />
+                                </LocalizationProvider>
                             </DateBox>
                         </InputBox>
                         <InputBox width="100%">
@@ -291,17 +299,53 @@ export const HomePage = () => {
                         <InputBox width="30%">
                             <LabelInput>Conclusão:</LabelInput>
                             <DateBox>
-                                <DateInput width="40%" onChange={handleFinishStartChange}/>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label=""
+                                    value={finishAtStart}
+                                    onChange={(newValue) => {
+                                      setFinishAtStart(newValue);
+                                    }}
+                                  />
+                                </LocalizationProvider>
                                 <LabelInput translatey="40%" marginl="20px">Até</LabelInput>
-                                <DateInput width="40%" onChange={handleFinishEndChange}/>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label=""
+                                    value={finishAtEnd}
+                                    onChange={(newValue) => {
+                                      setFinishAtEnd(newValue);
+                                    }}
+                                  />
+                                </LocalizationProvider>
                             </DateBox>
                         </InputBox>
                         <InputBox width="30%">
                             <LabelInput>Data:</LabelInput>
                             <DateBox>
-                                <DateInput width="40%" onChange={handleEventStartChange}/>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label=""
+                                    value={eventAtStart}
+                                    onChange={(newValue) => {
+                                      setEventAtStart(newValue);
+                                    }}
+                                  />
+                                </LocalizationProvider>
                                 <LabelInput translatey="40%" marginl="20px">Até</LabelInput>
-                                <DateInput width="40%" onChange={handleEventEndChange}/>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                  <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    label=""
+                                    value={eventAtEnd}
+                                    onChange={(newValue) => {
+                                      setEventAtEnd(newValue);
+                                    }}
+                                  />
+                                </LocalizationProvider>
                             </DateBox>
                         </InputBox>
                         <InputBox width="45%">
