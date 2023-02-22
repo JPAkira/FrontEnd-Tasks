@@ -49,7 +49,7 @@ export const LoginPage = () => {
                 </InputBox>
                 <InputBox width="100%">
                     <LabelInput>Senha:</LabelInput>
-                    <TextInput onChange={handlePassword}/>
+                    <TextInput type="password" onChange={handlePassword}/>
                 </InputBox>
                 <Button onClick={createLogin}>Acessar</Button>
                 <Button>Registrar-se</Button>
