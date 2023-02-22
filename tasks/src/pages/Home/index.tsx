@@ -169,7 +169,6 @@ export const HomePage = () => {
         }
 
         const saveTask = () => {
-            console.log(newTaskPriority)
             let newTask = {
                 name: newTaskName,
                 priority: newTaskPriority,

@@ -16,6 +16,18 @@ export class AppService {
         return response.data;
     }
 
+    public async postUser(object: any): Promise<any> {
+        let source = appSources('http://47.88.1.91/backend/api/users/')
+        const response = await source.post('', object);
+        return response.data;
+    }
+
+    public async postAuth(object: any): Promise<any> {
+        let source = appSources('http://47.88.1.91/backend/api/token/')
+        const response = await source.post('', object);
+        return response.data;
+    }
+
     public async putTask(event: any, id: any): Promise<any> {
         let source = appSources('http://47.88.1.91/backend/api/tasks/'.concat(id).concat("/"))
         const response = await source.put("", event);
