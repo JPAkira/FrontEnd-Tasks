@@ -1,5 +1,7 @@
 # FrontEnd-Tasks
 
+Para editar as tarefas é apenas dar dois clicks no campo que deseja editar na tabela.
+
 # Bibliotecas / framework / Linguagem:
  - React
  - Typescript
