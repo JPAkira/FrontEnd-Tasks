@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import {PageBlock} from '../../components/PageBlock'
 import {PageHeader} from '../../components/PageHeader'
 import {PageFilter} from "../../components/PageFilter";
@@ -100,8 +101,15 @@ export const HomePage = () => {
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
         const handleCloseSnackbar = () => setSnackbar(null);
+        const navigate = useNavigate();
 
         useEffect(() => {
+            // @ts-ignore
+            let tokenaccess = JSON.parse(localStorage.getItem('token'));
+            if (tokenaccess !== 'undefined' && tokenaccess !== null) {
+            } else {
+                navigate("/login");
+            }
             if (tasks.length == 0) {
                 appServices.getTasks('').then((response) => {
                     console.log(response)
